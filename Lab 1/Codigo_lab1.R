@@ -36,10 +36,7 @@ p2<-p2 + rotate_x_text(angle=45)
 plot(p2)
 
 
-
-###################Reglas Lógicas##################
-
-#Primera regla: R1
+#Regla: R1
 
 #primero definimos que valores de olor se evaluan en esta regla
 almendra<- "a"
@@ -62,13 +59,15 @@ n.VV<- (n.v - n.FC)  #VV: verdaderos venenosos
 # Comestibles     120           4208
 
 accuracy<-((n.VV+n.VC)/(n.VV+n.FV+n.VC+n.FC))
+precision<-(n.VV/(n.VV+n.FV))
 sensibilidad<-(n.VV/(n.VV+n.FC))
 especificidad<-(n.VC/(n.VC+n.FV))
 indice.exito<-(n.VV/(n.VV+n.FV+n.FC))
 
-metricas<-matrix(c(accuracy,sensibilidad,especificidad,indice.exito))
+metricas<-matrix(c(accuracy,precision,sensibilidad,especificidad,indice.exito))
 colnames(metricas)<-c("Valor")
-rownames(metricas)<-c("Presición","Sensibilidad","Especificidad","Índice de exito")
+rownames(metricas)<-c("Exactitud","Precision","Sensibilidad","Especificidad","Índice de exito")
+cat("\n","Conjunto de Métricas", "\n")
 print(metricas)
 
 
