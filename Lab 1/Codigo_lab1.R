@@ -12,10 +12,10 @@ mushrooms <- read.table(url, header = TRUE, sep = ",")
 
 
 #Separamos los hongos en los que son venenosos y los que son comestibles
-venenosos <- mushrooms %>% filter(p == "e") 
+venenosos <- mushrooms %>% filter(p == "p") 
 n.v<-nrow(venenosos)
 
-comestibles <-mushrooms %>% filter(p == "p")
+comestibles <-mushrooms %>% filter(p == "e")
 n.c<-nrow(comestibles)
 
 olorV<-as.data.frame(table(venenosos[["p.1"]]))
@@ -47,17 +47,19 @@ anis<- "l"
 ninguno<- "n"
 
 #Lo evaluamos para los comestibles y para los venenosos
-VV <- venenosos[which(venenosos$p.1 == almendra | venenosos$p.1 == anis | venenosos$p.1 == ninguno),] #VV: verdaderos venenosos
-n.VV<-nrow(VV)
-n.FV<- (n.v - n.VV)  #FV: falsos venenosos
-FC<- comestibles[which(comestibles$p.1 == almendra | comestibles$p.1 == anis | comestibles$p.1 == ninguno),] #FC: falsos comestibles
+VC<- comestibles[which(comestibles$p.1 == almendra | comestibles$p.1 == anis | comestibles$p.1 == ninguno),] #VC: verdaderos comestibles
+n.VC<-nrow(VC)
+n.FV<- (n.c - n.VC) #falsos venenosos
+
+FC <- venenosos[which(venenosos$p.1 == almendra | venenosos$p.1 == anis | venenosos$p.1 == ninguno),] #FC: falsos comestibles
 n.FC<-nrow(FC)
-n.VC<- (n.c - n.FC) #Verdaderos comestibles
+n.VV<- (n.v - n.FC)  #VV: verdaderos venenosos
+
 
 #Por lo tanto en resumen de lo anterior se muestra una matriz de confusión 
 #               Venenosos     Comestibles
-# Venenosos       4208            0
-# Comestibles     120           3795
+# Venenosos       3796            0
+# Comestibles     120           4208
 
 accuracy<-((n.VV+n.VC)/(n.VV+n.FV+n.VC+n.FC))
 sensibilidad<-(n.VV/(n.VV+n.FC))
