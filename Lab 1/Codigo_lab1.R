@@ -71,9 +71,29 @@ cat("\n","Conjunto de Métricas", "\n")
 print(metricas)
 
 
+#Regla 2
 
+#Se realizan 2 gráficos de barra para ver la frecuencia de los valores del atributo color de esporas de cada clase de hongo.
+colorV<-as.data.frame(table(venenosos[["k.1"]]))
+colnames(colorV)<-c("color Esporas","Frecuencia")
+colorC<-as.data.frame(table(comestibles[["k.1"]]))
+colnames(colorC)<-c("color Esporas","Frecuencia")
 
+p3<-ggbarplot(colorV, x="color Esporas",y="Frecuencia",label = TRUE,lab.pos = "out", lab.col = "black",
+              fill = "color Esporas", palette = "jco", title = "Frecuencia de color de esporas en hongos venenosos")
+p3<-p3+ rotate_x_text(angle=45)
+plot(p3)
 
+p4<-ggbarplot(colorC, x="color Esporas",y="Frecuencia",label = TRUE,lab.pos = "out", lab.col = "black",
+              fill = "color Esporas", palette = "jco", title = "Frecuencia de color de esporas en hongos comestibles")
+p4<-p4 + rotate_x_text(angle=45)
+plot(p4)
+
+#Test de Fisher
+#H0: El olor no determina la clase de hongo. Las variables son independientes
+#H1: El olor determina la clase de un hongo. Las variables no son independientes
+olor<- fisher.test(mushrooms$p, mushrooms$p.1,simulate.p.value=TRUE)
+print(olor$p.value)
 
 
 
