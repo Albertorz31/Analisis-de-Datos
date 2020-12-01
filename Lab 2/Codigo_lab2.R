@@ -1,0 +1,11 @@
+#Laboratorio 2 - Análisis de Datos
+#Integrantes:
+#            -Nicolás López
+#            -Alberto Rodríguez
+library(dplyr) 
+library(ggplot2)
+library(ggpubr)
+url<-"https://raw.githubusercontent.com/Albertorz31/Analisis-de-Datos/main/agaricus-lepiota.data"
+
+# Leemos los datos
+mushrooms <- read.table(url, header = TRUE, sep = ",")
