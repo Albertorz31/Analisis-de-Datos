@@ -148,6 +148,8 @@ levels(mushrooms$habitat) <- c("wood", "grasses", "leaves", "meadows", "paths", 
 
 mushrooms <- mushrooms %>% select(- veil_type)
 
+mushrooms <- mushrooms %>% select(- edibility)
+
 #Se observa si hay datos faltantes
 
 cat("\n","Elementos vacios en el dataset", "\n")
@@ -158,7 +160,7 @@ map_dbl(mushrooms, function(.x) {sum(is.na(.x))})
 
 #Grafico comestibilidad vs olor del hongo
 
-p5 <- ggplot(mushrooms, aes(x = edibility, y = odor, col = edibility)) + 
+p5 <- ggplot(mushrooms, aes(x = edibility, y = stalk_root, col = edibility)) + 
   geom_jitter(alpha = 0.5) + 
   scale_color_manual(breaks = c("edible", "poisonous"), 
                      values = c("green", "red"))
@@ -171,6 +173,3 @@ p6 <- ggplot(mushrooms, aes(x = cap_surface, y = cap_color, col = edibility)) +
   scale_color_manual(breaks = c("edible", "poisonous"), 
                      values = c("green", "red"))
 plot(p6)
-
-#Con el gráfico anterior es posible ver la relación entre dos variables y como estas se relacionan
-
