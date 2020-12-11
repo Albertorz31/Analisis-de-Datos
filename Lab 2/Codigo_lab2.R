@@ -142,7 +142,7 @@ ggplot(aes(x = X, y = Y), data = tsne_data) + geom_point(aes(color = cluster))
 
 
 # Se agrega el atributo cluster al dataframe
-mushrooms <- cbind(mushrooms, cluster = pam$cluster, class = original$edibility)
+mushrooms <- cbind(mushrooms, cluster = pam_fit$cluster, class = original$edibility)
 
 #Separamos los hongos en los que pertenecen al cluster 1 y al 2
 cluster_separados<-as.data.frame(table(mushrooms[["cluster"]]))
