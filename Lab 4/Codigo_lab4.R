@@ -53,3 +53,47 @@ levels(mushrooms$spore_print_color) <- c("buff", "chocolate", "black", "brown", 
                                          "green", "purple", "white", "yellow")
 levels(mushrooms$population) <- c("abundant", "clustered", "numerous", "scattered", "several", "solitary")
 levels(mushrooms$habitat) <- c("wood", "grasses", "leaves", "meadows", "paths", "urban", "waste")
+
+# Semilla
+set.seed(88)
+#Se guarda bd original, por si en necesaria en el futuro
+original<-mushrooms 
+
+#Usamos summary para calcular la frecuencia de cada variables categórica
+summary(mushrooms)
+# Se puede observar que el atributo veil-type 
+#solo tiene un posible valor, entonces se elimina
+#Eliminamos atributo innecesario (solo tiene un valor posible)
+mushrooms <- mushrooms %>% select(- veil_type)
+
+#Tambien notamos que existen 3 atributos, los cuales tenián casi un 100% de un solo valor, por lo que
+#al nno aportar información se eliminan del data set
+mushrooms <- mushrooms %>% select(- gill_attachement, - veil_color, - ring_number)
+
+#Se coloca el atributo class en la última posición
+mushrooms <- mushrooms %>% select(-edibility,edibility)
+
+##########OBTENCIÓN DEL ÁRBOL############
+
+#Se crea la muestra de pruebas y la de entrenamiento
+training.index = createDataPartition(mushrooms$edibility, p=0.7)$Resample1
+training.set <- mushrooms[training.index, ]
+test.set <- mushrooms[-training.index, ]
+
+#Se genera el arbol y las reglas asociadas a este 
+tree = C5.0(edibility ~ ., training.set)
+tree.rules <- C5.0(x = training.set[, -19], y = training.set$edibility, rules = T)
+
+#Se prueba el arbol con la muestra de pruebas
+tree.pred.class <- predict(tree, test.set[,-19], type = "class")
+tree.pred.prob <- predict(tree, test.set[,-19], type = "prob")
+
+#Obtener la información
+head(tree.pred.prob)
+plot(tree)
+summary(tree)
+summary(tree.rules)
+conf.matrix.tree = confusionMatrix(table(test.set$edibility, tree.pred.class))
+
+
+
