@@ -94,6 +94,6 @@ plot(tree)
 summary(tree)
 summary(tree.rules)
 conf.matrix.tree = confusionMatrix(table(test.set$edibility, tree.pred.class))
-
+print(conf.matrix.tree)  
 
 
